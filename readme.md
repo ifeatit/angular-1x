@@ -32,4 +32,4 @@
 services: 
   -
 
-Ссылка для просмотра: ifeatit.github.io/angular1x
+Ссылка для просмотра: [Assemble](http://ifeatit.github.io/angular1x)
