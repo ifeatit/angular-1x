@@ -1,0 +1,29 @@
+{
+  "name": "mediaWrapper.js",
+  "version": "1.1",
+  "homepage": "https://github.com/akselkreis/mediaWrapper.js",
+  "authors": [
+    "Matthew A. K. Smith <matthew@akselkreismedia.com>"
+  ],
+  "description": "jQuery mediaWrapper is a plugin for wrapping and making iframes and embedded videos behave more like images when developing a responsive website.",
+  "main": "jquery.mediaWrapper.js",
+  "keywords": [
+    "iframe",
+    "responsive",
+    "rwd",
+    "jquery",
+    "javascript",
+    "video"
+  ],
+  "license": "MIT/GPLv2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.8.3"
+  }
+}
