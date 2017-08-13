@@ -77,8 +77,14 @@
     border-right: 1px dashed #cccccc;
     overflow-y: scroll;
   }
-  .dropdown.open .dropdown-menu {
-    margin-top: 5px;
+  .store__additional {
+    overflow-y: scroll;
+  }
+  .dropdown.open {
+    .dropdown-menu {
+      margin-top: 5px;
+    }
+    
   }
   
 }

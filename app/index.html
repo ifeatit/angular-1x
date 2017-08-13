@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Angular</title>
+    <title>Angular Irishfood market</title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <link href="css/main.min.css" rel="stylesheet">
@@ -25,43 +25,42 @@
     <![endif]-->
   </head>
   <body>
-    <main class="store" data-ng-controller="controllerStorage as vm">
+    <main class="store" data-ng-controller="catalogCtrl as catalogCtrl">
       <div class="container">
         <div class="row">
           <div class="col-md-8 store__main">
             <div class="conrainer">
               <div class="row">
-                <div class="col-md-12">
-                  <ul class="nav nav-pills nav-pills-info" role="tablist" data-ng-init="vm.tab='default'">
+                <div class="col-md-12" data-ng-controller="sortCtrl as sortCtrl">
+                  <ul class="nav nav-pills nav-pills-info" role="tablist" data-ng-init="sortCtrl.tab='default'">
                     <li class="active">
-                      <a href role="tab" data-toggle="tab" aria-expanded="true" data-ng-click="vm.tab = 'default'">
+                      <a href role="tab" data-toggle="tab" aria-expanded="true" data-ng-click="sortCtrl.tab = 'default'">
                       Все категории
                       </a>
                     </li>
-                    <li class="" data-ng-repeat="category in vm.categories">
-                      <a href role="tab" data-toggle="tab" aria-expanded="false" data-ng-click="vm.tab = category.catName"> 
+                    <li class="" data-ng-repeat="category in sortCtrl.categories">
+                      <a href role="tab" data-toggle="tab" aria-expanded="false" data-ng-click="sortCtrl.tab = category.catName"> 
                       {{category.catName}}
                       </a>
                     </li>
-                    <li data-ng-if="vm.isEmpty(vm.items) !== true">
+                    <li data-ng-if="catalogCtrl.methodFctr.isEmpty(catalogCtrl.dataFctr.catalogItems) !== true">
                       <ul class="dropdown">
                         <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
                         Сортировать
                         <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu ">
-                          <li data-ng-repeat="sortType in vm.sortTypes">
-                            <a href data-ng-click="vm.sortType = sortType.sortName; sortType.sortReverse = !sortType.sortReverse; vm.sortReverse = sortType.sortReverse">
+                          <li data-ng-repeat="sortType in sortCtrl.sortTypes">
+                            <a href data-ng-click="sortCtrl.sortType = sortType.sortName; sortType.sortReverse = !sortType.sortReverse; sortCtrl.sortReverse = sortType.sortReverse">
                             {{sortType.sortDesc}}
-                            <span data-ng-show="vm.sortType == sortType.sortName && sortType.sortReverse" class="fa fa-caret-down"></span>
-                            <span data-ng-show="vm.sortType == sortType.sortName && !sortType.sortReverse" class="fa fa-caret-up"></span>
+                            <span data-ng-show="sortCtrl.sortType == sortType.sortName && sortType.sortReverse" class="fa fa-caret-down"></span>
+                            <span data-ng-show="sortCtrl.sortType == sortType.sortName && !sortType.sortReverse" class="fa fa-caret-up"></span>
                             </a>
                           </li>
                         </ul>
                       </ul>
                     </li>
-                    <li>
-                    </li>
+                    
                   </ul>
                   <form class="search-bar" action="#" method="get">
                     <div class="input-group">
@@ -71,28 +70,25 @@
                       </div>
                     </div>
                   </form>
-                  <span data-ng-show="vm.isEmpty(vm.items) === true">Нет доступных товаров</span>
-                  <form class="item" data-ng-repeat="item in vm.items | orderBy:vm.sortType:vm.sortReverse | filter : search" data-ng-if="vm.tab === 'default' || vm.tab === item.category" data-ng-submit='vm.add()'>
-                    <div class="item__img">
-                      <img class="img-rounded" data-ng-src="{{item.image}}" alt="{{item.name}}">
-                      <span class="label label-warning" data-ng-if="item.status == 'unavailable'">Cкоро в наличии</span>
-                    </div>
-                    <div class="item__content">
-                      <h2 class="item__content-title">
-                        <span>{{item.name}}</span>
-                        <span class="item__content-price label label-default">{{vm.formatPrice(item.price)}}</span>
-                      </h2>
-                      <p>{{item.description}}</p>
-                      <p>Категория: <span>{{item.category}}</span></p>
-                      <!-- <input type="hidden" value="{{item.name}}" data-ng-model="vm.cartTitleNew"> -->
-                      <input type='hidden' data-ng-model="vm.cartTitleNew" ng-init="vm.cartTitleNew = item.name">
-                      <input type="hidden" data-ng-model="vm.cartPriceNew" ng-init="vm.cartPriceNew = vm.formatPrice(item.price)">
-                      <button data-ng-if="item.status === 'available'" type="submit" class="btn btn-primary pull-right">Добавить в корзину</button>
-                      <button data-ng-if="item.status === 'unavailable'" type="submit" class="btn btn-primary pull-right" disabled="">Добавить в корзину</button>
-
-                    </div>
+                  <span data-ng-show="catalogCtrl.methodFctr.isEmpty(catalogCtrl.dataFctr.catalogItems) === true">Нет доступных товаров</span>
+                  <div class="catalog" >
+                    <article class="item" data-ng-repeat="item in catalogCtrl.dataFctr.catalogItems | orderBy:sortCtrl.sortType:sortCtrl.sortReverse | filter : search" data-ng-if="sortCtrl.tab === 'default' || sortCtrl.tab === item.category"'>
+                      <div class="item__img">
+                        <img class="img-rounded" data-ng-src="{{item.image}}" alt="{{item.name}}">
+                        <span class="label label-warning" data-ng-if="item.status == 'unavailable'">Cкоро в наличии</span>
+                      </div>
+                      <div class="item__content">
+                        <h2 class="item__content-title">
+                          <span>{{item.name}}</span>
+                          <span class="item__content-price label label-default">{{catalogCtrl.methodFctr.formatPrice(item.price)}}</span>
+                        </h2>
+                        <p>{{item.description}}</p>
+                        <p>Категория: <span>{{item.category}}</span><button data-ng-if="item.status === 'available'" type="button" class="btn btn-primary pull-right" data-ng-click="catalogCtrl.addToCart(item)">Добавить в корзину</button>
+                        <button data-ng-if="item.status === 'unavailable'" type="button" class="btn btn-primary pull-right" disabled="">Добавить в корзину</button></p>
+                      </div>
+                    </article>
                     
-                  </form>
+                  </div>
                   
                 </div>
               </div>
@@ -101,22 +97,25 @@
           <div class="col-md-4 store__additional">
             <h3>Корзина</h3>
             <div class="cart">
-              <span data-ng-show="vm.isEmpty(vm.cart) === true">Корзина пуста</span>
-              <table class="table" data-ng-if="vm.isEmpty(vm.cart) !== true">
+              <span data-ng-if="catalogCtrl.methodFctr.isEmpty(catalogCtrl.cart) === true">Корзина пуста</span>
+              <table class="table" data-ng-if="catalogCtrl.isEmpty(catalogCtrl.cart) !== true">
                 <tbody>
-                  <tr class="animate-if" data-ng-repeat="cartItem in vm.cart">
+                  <tr class="animate-if" data-ng-repeat="cartItem in catalogCtrl.cart | orderBy:catalogCtrl.cart.name">
                     <td class="text-center">x{{cartItem.quantity}}</td>
-                    <td>{{cartItem.title}}</td>
-                    <td class="text-right cart__price">{{vm.formatPrice(cartItem.price) * cartItem.quantity}}</td>
+                    <td>{{cartItem.name}}</td>
+                    <td class="text-right cart__price">{{catalogCtrl.methodFctr.formatPrice(cartItem.price * cartItem.quantity)}}</td>
                     <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs" data-ng-click='vm.remove($index)'>
+                      <button type="button" rel="tooltip" title="Удалить" class="btn btn-danger btn-simple btn-xs cart__btn-delete" data-ng-click='catalogCtrl.remove($index)'>
                         <i class="fa fa-times"></i>
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-             <!--  <p>{{vm.cartSummary}}</p> -->
+              <div class="animate-if" data-ng-if="catalogCtrl.methodFctr.isEmpty(catalogCtrl.cart) !== true">
+                <h4 >На сумму: <strong class="cart__price pull-right">{{catalogCtrl.methodFctr.formatPrice(catalogCtrl.getTotalPrice())}}</strong></h4>
+                <button type="button" class="btn btn-info pull-right btn-sm">Оформить заказ</button>
+              </div>
             </div>
           </div>
         </div>
